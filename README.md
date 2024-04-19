@@ -1,1 +1,1 @@
-wget -O 0gai.sh https://raw.githubusercontent.com/breaddog100/0gai/main/0gai.sh && chmod +x 0gai.sh && ./0gai.sh
+wget -O taiko.sh https://raw.githubusercontent.com/breaddog100/taiko/main/taiko-v1.0.sh && chmod +x taiko.sh && ./taiko.sh
