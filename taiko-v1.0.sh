@@ -3,13 +3,29 @@
 set -e
 
 # PATH
-SCRIPT_PATH="$HOME/Taiko.sh"
+SCRIPT_PATH="$HOME/taiko.sh"
 
 # 节点安装功能
 function install_node() {
 
+    # 检查 Docker 是否已安装
+    if ! command -v docker &> /dev/null
+    then
+        echo "安装Docker..."
+        # 添加 Docker 官方 GPG 密钥
+        sudo mkdir -p /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        # 设置 Docker 仓库
+        echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+          $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    else
+        echo "Docker 已安装。"
+    fi
+    
     sudo apt update
-    sudo apt install -y pkg-config curl build-essential libssl-dev libclang-dev ufw docker-compose-plugin ca-certificates gnupg lsb-release
+    sudo apt install -y pkg-config curl build-essential libssl-dev libclang-dev ufw ca-certificates gnupg lsb-release docker-ce docker-ce-cli containerd.io docker-compose-plugin
     # 检查 Git 是否已安装
     if ! command -v git &> /dev/null
     then
@@ -83,24 +99,6 @@ function install_node() {
     sed -i "s|PROVER_ENDPOINTS=.*|PROVER_ENDPOINTS=http://taiko-a6-prover.zkpool.io|" .env
     sed -i "s|BLOCK_PROPOSAL_FEE=.*|BLOCK_PROPOSAL_FEE=30|" .env
     
-    # 检查 Docker 是否已安装
-    if ! command -v docker &> /dev/null
-    then
-        echo "安装Docker..."
-        # 添加 Docker 官方 GPG 密钥
-        sudo mkdir -p /etc/apt/keyrings
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-        # 设置 Docker 仓库
-        echo \
-          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-          $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-        sudo chmod a+r /etc/apt/keyrings/docker.gpg
-        sudo apt-get update
-        sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
-    else
-        echo "Docker 已安装。"
-    fi
-    
     # 安装 Docker compose 最新版本
     DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
     mkdir -p $DOCKER_CONFIG/cli-plugins
@@ -155,7 +153,7 @@ function main_menu() {
     clear
     echo "===============Taiko一键部署脚本==============="
     echo "沟通电报群：https://t.me/lumaogogogo"
-    echo "最低配置：4C8G100G；推荐配置：4C16G512G"
+    echo "最低配置：4C8G100G；推荐配置：4C16G500G"
     echo "1. 安装节点install node"
     echo "2. 查看节点状态cosmovisor status"
     echo "3. 启动节点start node"
