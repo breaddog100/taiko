@@ -8,7 +8,7 @@ SCRIPT_PATH="$HOME/Taiko.sh"
 # 节点安装功能
 function install_node() {
 
-    sudo apt upgrade -y
+    sudo apt update
     sudo apt install -y pkg-config curl build-essential libssl-dev libclang-dev ufw docker-compose-plugin ca-certificates gnupg lsb-release
     # 检查 Git 是否已安装
     if ! command -v git &> /dev/null
