@@ -35,6 +35,7 @@ function install_node() {
         echo "Git 已安装。"
     fi
     # 构建taiko
+    rm -rf simple-taiko-node
     git clone https://github.com/taikoxyz/simple-taiko-node.git
     # 进入 Taiko 目录
     cd simple-taiko-node
