@@ -162,7 +162,7 @@ function main_menu() {
     echo "4. 停止节点stop node"
     echo "5. 修改秘钥update private key"
     echo "0. 退出脚本exit"
-    read -r -p "请输入选项（0-8）: " OPTION
+    read -r -p "请输入选项: " OPTION
 
     case $OPTION in
     1) install_node ;;
