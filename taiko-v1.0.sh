@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 # PATH
 SCRIPT_PATH="$HOME/taiko.sh"
 
@@ -121,19 +119,19 @@ function install_node() {
 # 查看节点状态
 function check_service_status() {
     cd simple-taiko-node
-    docker compose logs -f --tail 20
+    sudo docker compose logs -f --tail 30
 }
 
 # 启动节点
 function start_node() {
     cd simple-taiko-node
-    docker compose up -d
+    sudo docker compose up -d
 }
 
 # 停止节点
 function stop_node() {
     cd simple-taiko-node
-    docker compose down
+    sudo docker compose down
 }
 
 # 修改秘钥
@@ -145,8 +143,8 @@ function update_private_key() {
 	ip_address=$(hostname -I | awk '{print $1}')
 	port_grafana=$(echo $ip_address | cut -d '.' -f 3,4 | tr -d '.')
 	sed -i "s|PORT_GRAFANA=.*|PORT_GRAFANA=${port_grafana}|" .env
-	docker compose down
-	docker compose up -d
+	sudo docker compose down
+	sudo docker compose up -d
 }
 
 # MENU
