@@ -45,9 +45,9 @@ function install_node() {
     # 提示用户输入环境变量的值
     read -p "请输入BlockPI holesky HTTP链接: " l1_endpoint_http
     read -p "请输入BlockPI holesky WS链接: " l1_endpoint_ws
-    enable_proposer = true
+    enable_proposer=true
     read -p "申请提议者[申请：true，不申请false，默认申请]: " $enable_proposer
-    disable_p2p_sync = false
+    disable_p2p_sync=false
     read -p "P2P同步[开启：true，不开启false，默认不开启]: " $disable_p2p_sync
     read -p "EVM钱包私钥: " l1_proposer_private_key
     
