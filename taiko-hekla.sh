@@ -142,14 +142,16 @@ function stop_node() {
 # 修改秘钥
 function update_private_key() {
 	cd simple-taiko-node
-	read -p "请输入EVM钱包私钥: " l1_proposer_private_key
+	read -p "EVM钱包私钥: " l1_proposer_private_key
+    read -p "EVM钱包地址(0x开头): " l2_suggested_fee_recipient
 	sed -i "s|L1_PROPOSER_PRIVATE_KEY=.*|L1_PROPOSER_PRIVATE_KEY=${l1_proposer_private_key}|" .env
-	# 修改端口
-	ip_address=$(hostname -I | awk '{print $1}')
-	port_grafana=$(echo $ip_address | cut -d '.' -f 3,4 | tr -d '.')
-	sed -i "s|PORT_GRAFANA=.*|PORT_GRAFANA=${port_grafana}|" .env
-	sudo docker compose down
-	sudo docker compose up -d
+	sed -i "s|L2_SUGGESTED_FEE_RECIPIENT=.*|L2_SUGGESTED_FEE_RECIPIENT=${l2_suggested_fee_recipient}|" .env
+
+	sudo docker compose --profile l2_execution_engine down
+    sudo docker stop simple-taiko-node-taiko_client_proposer-1
+    sudo docker rm simple-taiko-node-taiko_client_proposer-1
+    sudo docker compose --profile l2_execution_engine up -d
+    sudo docker compose --profile proposer up -d
 }
 
 # MENU
