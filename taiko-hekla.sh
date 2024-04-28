@@ -82,7 +82,7 @@ function install_node() {
     port_grafana=${port_grafana:-3001}
     # 配置文件
     l1_beacon_http=https://ethereum-holesky-beacon-api.publicnode.com
-	prover_endpoints=http://hekla.stonemac65.xyz:9876)
+	prover_endpoints=http://hekla.stonemac65.xyz:9876
     sed -i "s|L1_ENDPOINT_HTTP=.*|L1_ENDPOINT_HTTP=${l1_endpoint_http}|" .env
     sed -i "s|L1_ENDPOINT_WS=.*|L1_ENDPOINT_WS=${l1_endpoint_ws}|" .env
     sed -i "s|L1_BEACON_HTTP=.*|L1_BEACON_HTTP=${l1_beacon_http}|" .env
