@@ -127,13 +127,16 @@ function check_service_status() {
 # 启动节点
 function start_node() {
     cd simple-taiko-node
-    sudo docker compose up -d
+    sudo docker compose --profile l2_execution_engine up -d
+    sudo docker compose --profile proposer up -d
 }
 
 # 停止节点
 function stop_node() {
     cd simple-taiko-node
-    sudo docker compose down
+    sudo docker compose --profile l2_execution_engine down
+    sudo docker stop simple-taiko-node-taiko_client_proposer-1
+    sudo docker rm simple-taiko-node-taiko_client_proposer-1
 }
 
 # 修改秘钥
