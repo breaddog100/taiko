@@ -82,7 +82,7 @@ function install_node() {
     port_grafana=${port_grafana:-3001}
     # 配置文件
     l1_beacon_http=https://ethereum-holesky-beacon-api.publicnode.com
-	prover_endpoints=http://hekla.stonemac65.xyz:9876
+    prover_endpoints=http://hekla.stonemac65.xyz:9876
     sed -i "s|L1_ENDPOINT_HTTP=.*|L1_ENDPOINT_HTTP=${l1_endpoint_http}|" .env
     sed -i "s|L1_ENDPOINT_WS=.*|L1_ENDPOINT_WS=${l1_endpoint_ws}|" .env
     sed -i "s|L1_BEACON_HTTP=.*|L1_BEACON_HTTP=${l1_beacon_http}|" .env
@@ -105,10 +105,11 @@ function install_node() {
     mkdir -p $DOCKER_CONFIG/cli-plugins
     curl -SL https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
     chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
-    docker compose version
+    sudo docker compose version
     
     # 启动 Taiko 节点
-    docker compose up -d
+    sudo docker compose --profile l2_execution_engine up -d
+    sudo docker compose --profile proposer up -d
     # 获取公网 IP 地址
     public_ip=$(curl -s ifconfig.me)
     original_url="LocalHost:${port_grafana}/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s"
@@ -151,7 +152,7 @@ function update_private_key() {
 # MENU
 function main_menu() {
     clear
-    echo "===============Taiko一键部署脚本==============="
+    echo "===============Taiko Hekla一键部署脚本==============="
     echo "沟通电报群：https://t.me/lumaogogogo"
     echo "最低配置：4C8G100G；推荐配置：4C16G500G"
     echo "1. 安装节点install node"
