@@ -121,7 +121,7 @@ function install_node() {
 # 查看节点状态
 function check_service_status() {
     cd simple-taiko-node
-    sudo docker compose logs -f --tail 30
+    sudo docker ps -q | xargs -I {} sudo docker logs --tail 30 {}
 }
 
 # 启动节点
