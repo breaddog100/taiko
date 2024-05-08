@@ -7,12 +7,12 @@ function install_node() {
     read -p "请输入BlockPI holesky HTTP链接: " l1_endpoint_http
     read -p "请输入BlockPI holesky WS链接: " l1_endpoint_ws
     read -p "l1_beacon_http: " l1_beacon_http
-    l1_beacon_http=${l1_beacon_http:"http://195.201.170.121:5052"}
+    l1_beacon_http=${l1_beacon_http-"http://195.201.170.121:5052"}
     read -p "prover_endpoints: " prover_endpoints
-    prover_endpoints=${prover_endpoints:"http://hekla.stonemac65.xyz:9876"}
+    prover_endpoints=${prover_endpoints-"http://hekla.stonemac65.xyz:9876"}
     enable_proposer=true
     read -p "关闭P2P同步[关闭：true，不关闭false，默认关闭]: " disable_p2p_sync
-    disable_p2p_sync=${disable_p2p_sync:"true"}
+    disable_p2p_sync=${disable_p2p_sync-"true"}
     read -p "EVM钱包私钥: " l1_proposer_private_key
     read -p "EVM钱包地址(0x开头): " l2_suggested_fee_recipient
 
