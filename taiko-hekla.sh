@@ -3,6 +3,19 @@
 # 节点安装功能
 function install_node() {
 
+    # 配置环境变量
+    read -p "请输入BlockPI holesky HTTP链接: " l1_endpoint_http
+    read -p "请输入BlockPI holesky WS链接: " l1_endpoint_ws
+    read -p "l1_beacon_http: " l1_beacon_http
+    l1_beacon_http=${l1_beacon_http:"http://195.201.170.121:5052"}
+    read -p "prover_endpoints: " prover_endpoints
+    prover_endpoints=${prover_endpoints:"http://hekla.stonemac65.xyz:9876"}
+    enable_proposer=true
+    read -p "关闭P2P同步[关闭：true，不关闭false，默认关闭]: " disable_p2p_sync
+    disable_p2p_sync=${disable_p2p_sync:"true"}
+    read -p "EVM钱包私钥: " l1_proposer_private_key
+    read -p "EVM钱包地址(0x开头): " l2_suggested_fee_recipient
+
     # 检查 Docker 是否已安装
     if ! command -v docker &> /dev/null
     then
@@ -38,19 +51,6 @@ function install_node() {
       cp .env.sample .env
     fi
     
-    # 提示用户输入环境变量的值
-    read -p "请输入BlockPI holesky HTTP链接: " l1_endpoint_http
-    read -p "请输入BlockPI holesky WS链接: " l1_endpoint_ws
-    l1_beacon_http=http://195.201.170.121:5052
-    prover_endpoints=http://hekla.stonemac65.xyz:9876
-    read -p "l1_beacon_http: " l1_beacon_http
-    read -p "prover_endpoints: " prover_endpoints
-    enable_proposer=true
-    disable_p2p_sync=true
-    read -p "关闭P2P同步[关闭：true，不关闭false，默认关闭]: " $disable_p2p_sync
-    read -p "EVM钱包私钥: " l1_proposer_private_key
-    read -p "EVM钱包地址(0x开头): " l2_suggested_fee_recipient
-    
     # 配置文件
     sed -i "s|L1_ENDPOINT_HTTP=.*|L1_ENDPOINT_HTTP=${l1_endpoint_http}|" .env
     sed -i "s|L1_ENDPOINT_WS=.*|L1_ENDPOINT_WS=${l1_endpoint_ws}|" .env
@@ -77,7 +77,7 @@ function install_node() {
     original_url="LocalHost:3001/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s"
     updated_url=$(echo $original_url | sed "s/LocalHost/$public_ip/")
     # 项目看板
-    echo "项目看板：$updated_url"
+    echo "部署完成，项目看板：$updated_url"
 }
 
 # 修改端口
