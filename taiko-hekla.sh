@@ -74,7 +74,7 @@ function install_node() {
     sudo docker compose --profile proposer up -d
     # 获取公网 IP 地址
     public_ip=$(curl -s ifconfig.me)
-    original_url="LocalHost:${port_grafana}/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s"
+    original_url="LocalHost:3001/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s"
     updated_url=$(echo $original_url | sed "s/LocalHost/$public_ip/")
     # 项目看板
     echo "项目看板：$updated_url"
