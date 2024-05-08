@@ -151,7 +151,7 @@ function main_menu() {
     echo "沟通电报群：https://t.me/lumaogogogo"
     echo "最低配置：4C8G100G；推荐配置：4C16G500G"
     echo "1. 安装节点install node"
-    echo "2. 查看节点状态cosmovisor status"
+    echo "2. 查看节点状态node status"
     echo "3. 启动节点start node"
     echo "4. 停止节点stop node"
     echo "5. 修改秘钥update private key"
