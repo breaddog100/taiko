@@ -163,6 +163,26 @@ function update_private_key() {
     sudo docker compose --profile proposer up -d
 }
 
+# 卸载节点
+function uninstall_node(){
+    echo "确定要卸载节点吗？[Y/N]"
+    read -r -p "请确认: " response
+    case "$response" in
+        [yY][eE][sS]|[yY]) 
+            echo "开始卸载节点..."
+            cd simple-taiko-node
+            sudo docker compose --profile l2_execution_engine down
+            sudo docker stop simple-taiko-node-taiko_client_proposer-1
+            sudo docker rm -f simple-taiko-node-taiko_client_proposer-1
+            rm -rf simple-taiko-node
+            echo "节点卸载完成。"
+            ;;
+        *)
+            echo "取消卸载操作。"
+            ;;
+    esac
+}
+
 # MENU
 function main_menu() {
     clear
@@ -174,6 +194,7 @@ function main_menu() {
     echo "3. 启动节点start node"
     echo "4. 停止节点stop node"
     echo "5. 修改秘钥update private key"
+    echo "6. 卸载节点 uninstall_node"
     echo "0. 退出脚本exit"
     read -r -p "请输入选项: " OPTION
 
@@ -183,6 +204,7 @@ function main_menu() {
     3) start_node ;;
     4) stop_node ;;
     5) update_private_key ;;
+    6) uninstall_node ;;
     0) echo "退出脚本。"; exit 0 ;;
     *) echo "无效选项，请重新输入。"; sleep 3 ;;
     esac
